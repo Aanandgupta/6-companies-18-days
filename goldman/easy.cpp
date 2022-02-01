@@ -66,13 +66,6 @@ int main()
     vector<vector <string>>  ans;
     string s="abba";
     ans=ob.Anagrams(s);
-    // for(auto i:ans)
-    // {
-    //     for(auto j:i)
-    //     {
-    //         cout << j<< " ";
-    //     }
-    //     cout << endl;
-    // }
+  
     return 0;
 }
