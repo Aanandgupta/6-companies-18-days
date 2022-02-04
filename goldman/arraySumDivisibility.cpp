@@ -9,32 +9,70 @@
 // possible solution. 9 + 3 = 12 is divisible
 // by 6 and 7 + 5 = 12 is also divisible by 6.
 
+
+// https://practice.geeksforgeeks.org/problems/array-pair-sum-divisibility-problem3257/1#
+
+
 #include <bits/stdc++.h>
 using namespace std;
 
-
+ // } Driver Code Ends
 class Solution {
-public:
-    int minSubArrayLen(int target, vector<int>& nums) {
-        int sum=0;
-        int minimum=INT_MAX;
-        for(int start=0,end=0;end<nums.size();end++)
+  public:
+    bool canPair(vector<int> nums, int k) {
+        // Code here.
+        unordered_map <int,int> store;
+        if(nums.size()%2!=0)
         {
-            sum+=nums[end];
-            while(sum-nums[start]>=target)
+            return false;
+        }
+        for(int i=0;i<nums.size();i++)
+        {
+            if(nums[i]%k==0)
             {
-                sum-=nums[start++];
+                if(store.find(0)!=store.end() and store[0]!=0)
+                {
+                 store[0]-=1;   
+                }
+                else{
+                    store[0]+=1;
+                }
             }
-            if(sum>=target)
+            else if(store.find(k-(nums[i]%k))!=store.end() and store[k-(nums[i]%k)]!=0)
             {
-                minimum=min(minimum,end-start+1);
+                store[k-nums[i]%k]-=1;
+            }
+            else{
+                store[nums[i]%k]+=1;
             }
         }
         
-        return (minimum==INT_MAX?0:minimum);
-        
+        for(auto it=store.begin();it!=store.end();it++)
+        {
+            if(it->second>0)
+            {
+                return false;
+            }
+        }
+        return true;
     }
 };
 
-
-// https://practice.geeksforgeeks.org/problems/array-pair-sum-divisibility-problem3257/1#
+// { Driver Code Starts.
+int main() {
+    int tc;
+    cin >> tc;
+    while (tc--) {
+        int n, k;
+        cin >> n >> k;
+        vector<int> nums(n);
+        for (int i = 0; i < nums.size(); i++) cin >> nums[i];
+        Solution ob;
+        bool ans = ob.canPair(nums, k);
+        if (ans)
+            cout << "True\n";
+        else
+            cout << "False\n";
+    }
+    return 0;
+}  // } Driver Code Ends
